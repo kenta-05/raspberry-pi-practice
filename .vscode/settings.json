@@ -1,3 +1,7 @@
 {
-  "cSpell.words": ["GPIO"]
+  "cSpell.words": ["GPIO"],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  }
 }
