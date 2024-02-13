@@ -22,24 +22,26 @@ def all_leds_off():
     GPIO.output(THIRD_LED_PIN, GPIO.LOW)
 
 
+def update_leds():
+    if current_led == 1:
+        GPIO.output(FIRST_LED_PIN, GPIO.HIGH)
+    elif current_led == 2:
+        GPIO.output(SECOND_LED_PIN, GPIO.HIGH)
+    elif current_led == 3:
+        GPIO.output(THIRD_LED_PIN, GPIO.HIGH)
+
+
 while True:
     try:
-        time.sleep(0.3)
         if GPIO.input(BUTTON_PIN) == GPIO.HIGH:
-            all_leds_off()
             if current_led < 3:
                 current_led += 1
             else:
                 current_led = 0
-
-        if current_led == 0:
             all_leds_off()
-        elif current_led == 1:
-            GPIO.output(FIRST_LED_PIN, GPIO.HIGH)
-        elif current_led == 2:
-            GPIO.output(SECOND_LED_PIN, GPIO.HIGH)
-        elif current_led == 3:
-            GPIO.output(THIRD_LED_PIN, GPIO.HIGH)
+            update_leds()
+
+        time.sleep(0.3)
     except KeyboardInterrupt:
         GPIO.cleanup()
     except Exception as e:
