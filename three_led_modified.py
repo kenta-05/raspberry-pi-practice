@@ -3,16 +3,24 @@ import time
 
 GPIO.setmode(GPIO.BCM)
 
-led_index = 0
+click_count = 0
 LED_PIN_LIST = [17, 27, 22]
 BUTTON_PIN = 26
 
 
-def update_led():
-    led_index = led_index % len(LED_PIN_LIST)
+def update_led(selected_pin):
+    for pin in LED_PIN_LIST:
+        if pin == selected_pin:
+            GPIO.output(pin, GPIO.HIGH)
+        else:
+            GPIO.output(pin, GPIO.LOW)
 
-    if led_index % len(LED_PIN_LIST) != 0:
-        GPIO.output(LED_PIN_LIST[led_index - 1], GPIO.HIGH)
+
+# def update_led():
+#     click_count = click_count % len(LED_PIN_LIST)
+
+#     if click_count % len(LED_PIN_LIST) != 0:
+#         GPIO.output(LED_PIN_LIST[click_count - 1], GPIO.HIGH)
 
 
 for pin in LED_PIN_LIST:
@@ -28,5 +36,6 @@ while True:
     if button_state != previous_button_state:
         previous_button_state = button_state
         if button_state == GPIO.HIGH:
-            led_index += 1
-            update_led()
+            click_count += 1
+            led_index = (click_count - 1) % len(LED_PIN_LIST)
+            update_led(LED_PIN_LIST[led_index])
