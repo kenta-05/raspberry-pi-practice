@@ -4,29 +4,20 @@ import time
 GPIO.setmode(GPIO.BCM)
 
 led_index = 0
+LED_PIN_LIST = [17, 27, 22]
+BUTTON_PIN = 26
 
 
 def update_led():
-    GPIO.output(FIRST_LED_PIN, GPIO.LOW)
-    GPIO.output(SECOND_LED_PIN, GPIO.LOW)
-    GPIO.output(THIRD_LED_PIN, GPIO.LOW)
+    led_index = led_index % len(LED_PIN_LIST)
 
-    if led_index % 4 == 1:
-        GPIO.output(FIRST_LED_PIN, GPIO.HIGH)
-    elif led_index % 4 == 2:
-        GPIO.output(SECOND_LED_PIN, GPIO.HIGH)
-    elif led_index % 4 == 3:
-        GPIO.output(THIRD_LED_PIN, GPIO.HIGH)
+    if led_index % len(LED_PIN_LIST) != 0:
+        GPIO.output(LED_PIN_LIST[led_index - 1], GPIO.HIGH)
 
 
-FIRST_LED_PIN = 17
-SECOND_LED_PIN = 27
-THIRD_LED_PIN = 22
-BUTTON_PIN = 26
+for pin in LED_PIN_LIST:
+    GPIO.setup(pin, GPIO.OUT)
 
-GPIO.setup(FIRST_LED_PIN, GPIO.OUT)
-GPIO.setup(SECOND_LED_PIN, GPIO.OUT)
-GPIO.setup(THIRD_LED_PIN, GPIO.OUT)
 GPIO.setup(BUTTON_PIN, GPIO.IN)
 
 previous_button_state = GPIO.input(BUTTON_PIN)
